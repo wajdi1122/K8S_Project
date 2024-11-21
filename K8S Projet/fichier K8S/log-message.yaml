@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-message-processor
+  namespace: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-message-processor
+  template:
+    metadata:
+      labels:
+        app: log-message-processor
+    spec:
+      containers:
+      - name: log-message-processor
+        image: wajdi1999/log-message-processor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-message-processor
+  namespace: my-app
+spec:
+  selector:
+    app: log-message
+  ports:
+  - port: 5000
+    targetPort: 5000
+  type: LoadBalancer
